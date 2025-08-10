@@ -105,19 +105,20 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-100 p-8 flex flex-col">
-      <div className="bg-white rounded-xl shadow-2xl flex flex-col flex-grow overflow-hidden">
-        <header className="bg-indigo-50 p-12 text-center rounded-t-xl">
-          <h1 className="text-4xl font-extrabold text-indigo-600">
-            Solace Advocates
-          </h1>
-        </header>
-
-        <div className="p-8 flex flex-col flex-grow">
+      <div className="bg-white rounded-xl shadow-2xl flex flex-col flex-grow">
+        <div className="sticky top-0 z-10 bg-white p-8 pt-4 pb-0 rounded-t-xl">
+          <header className="bg-indigo-50 p-12 text-center -m-8 -mt-4 mb-4">
+            <h1 className="text-4xl font-extrabold text-indigo-600">
+              Solace Advocates
+            </h1>
+          </header>
           <SearchBar
             searchTerm={searchTerm}
             setSearchTerm={handleSearchChange}
             handleResetSearch={handleResetSearch}
           />
+        </div>
+        <div className="p-8 pt-0 overflow-y-auto">
           <AdvocateTable 
             advocates={advocates} 
             isTableLoading={isTableLoading} 
