@@ -1,9 +1,15 @@
 import db from "../db";
 import { advocates } from "../db/schema";
-import { ilike, or, sql } from "drizzle-orm";
+import { ilike, or, sql, asc, desc } from "drizzle-orm";
 import { FetchAdvocatesArgs } from "@localtypes/index";
 
-export async function fetchAdvocatesWithPagination({ searchTerm, page, limit }: FetchAdvocatesArgs) {
+export async function fetchAdvocatesWithPagination({ 
+  searchTerm, 
+  page, 
+  limit, 
+  sortColumn = "firstName", // Default sort column
+  sortOrder = "asc",    // Default sort order
+}: FetchAdvocatesArgs) {
   const offset = (page - 1) * limit;
 
   // Conditions for the search query
@@ -24,6 +30,29 @@ export async function fetchAdvocatesWithPagination({ searchTerm, page, limit }: 
   if (conditions.length > 0) {
     advocateQuery = advocateQuery.where(or(...conditions));
     totalCountQuery = totalCountQuery.where(or(...conditions));
+  }
+  
+  // This line determine the sort order (asc or desc)
+  const sortDirection = sortOrder === "asc" ? asc : desc;
+
+  // We need to handle sorting on different columns.
+  switch (sortColumn) {
+    case "firstName":
+      advocateQuery = advocateQuery.orderBy(sortDirection(advocates.firstName));
+      break;
+    case "lastName":
+      advocateQuery = advocateQuery.orderBy(sortDirection(advocates.lastName));
+      break;
+    case "city":
+      advocateQuery = advocateQuery.orderBy(sortDirection(advocates.city));
+      break;
+    case "yearsOfExperience":
+      advocateQuery = advocateQuery.orderBy(sortDirection(advocates.yearsOfExperience));
+      break;
+    default:
+      // Default sort on firstName if the sortColumn is not recognized
+      advocateQuery = advocateQuery.orderBy(sortDirection(advocates.firstName));
+      break;
   }
 
   // Executing the count query
