@@ -23,4 +23,5 @@ Configuration file to dynamically changes repetitive/glbal values.
 Table accordion. ✅
 Better files/directory organization
 enhance main page title , maybe a banner?
-create an export button
+create an Downloa all button - will download all in csv
+Expand row when search find specialty ✅

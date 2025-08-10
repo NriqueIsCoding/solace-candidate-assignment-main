@@ -12,13 +12,16 @@ export async function fetchAdvocatesWithPagination({
 }: FetchAdvocatesArgs) {
   const offset = (page - 1) * limit;
 
+  // Condition to specifically check if the search term matches a specialty
+  const specialtySearchCondition = sql`CAST(${advocates.specialties} AS TEXT) ILIKE ${`%${searchTerm.toLowerCase()}%`}`;
+
   // Conditions for the search query
   const conditions = searchTerm ? [
     ilike(advocates.firstName, `%${searchTerm.toLowerCase()}%`),
     ilike(advocates.lastName, `%${searchTerm.toLowerCase()}%`),
     ilike(advocates.city, `%${searchTerm.toLowerCase()}%`),
     ilike(advocates.degree, `%${searchTerm.toLowerCase()}%`),
-    sql`CAST(${advocates.specialties} AS TEXT) ILIKE ${`%${searchTerm.toLowerCase()}%`}`,
+    specialtySearchCondition,
     sql`CAST(${advocates.yearsOfExperience} AS TEXT) ILIKE ${`%${searchTerm.toLowerCase()}%`}`,
   ] : [];
 
@@ -61,6 +64,14 @@ export async function fetchAdvocatesWithPagination({
 
   // Pagination
   const data = await advocateQuery.limit(limit).offset(offset);
+
+  // Determine if any of the fetched advocates specialties match the search term
+  const matchedSpecialty = searchTerm 
+    ? data.some(advocate => 
+        advocate.specialties.some(s => s.toLowerCase().includes(searchTerm.toLowerCase()))
+      )
+    : false;
+
   // console.log('data', data)
-  return { data, totalCount, currentPage: page, limit };
+  return { data, totalCount, currentPage: page, limit, matchedSpecialty };
 }

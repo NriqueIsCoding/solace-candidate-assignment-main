@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   // Default to 'asc' if it's not present or invalid.
   const sortOrder = (searchParams.get("sortOrder") as SortOrder) || "asc"; // as SortOder: for type safety
 
-  const { data, totalCount, currentPage, limit: fetchedLimit } = await fetchAdvocatesWithPagination({
+  const { data, totalCount, currentPage, limit: fetchedLimit, matchedSpecialty } = await fetchAdvocatesWithPagination({
     searchTerm,
     page,
     limit,
@@ -26,5 +26,6 @@ export async function GET(request: Request) {
     totalCount,
     currentPage,
     limit: fetchedLimit,
+    matchedSpecialty,
   });
 }
