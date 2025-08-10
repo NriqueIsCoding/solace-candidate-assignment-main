@@ -105,32 +105,35 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-100 p-8 flex flex-col">
-      <div className="bg-white rounded-xl shadow-2xl p-8 flex flex-col flex-grow">
-        <header className="mb-4">
-          <h1 className="text-3xl font-extrabold text-gray-900 text-center mb-6">
+      <div className="bg-white rounded-xl shadow-2xl flex flex-col flex-grow overflow-hidden">
+        <header className="bg-indigo-50 p-12 text-center rounded-t-xl">
+          <h1 className="text-4xl font-extrabold text-indigo-600">
             Solace Advocates
           </h1>
         </header>
-        <SearchBar
-          searchTerm={searchTerm}
-          setSearchTerm={handleSearchChange}
-          handleResetSearch={handleResetSearch}
-        />
-        <AdvocateTable 
-          advocates={advocates} 
-          isTableLoading={isTableLoading} 
-          sortColumn={sortColumn}
-          sortOrder={sortOrder}
-          onSort={handleSort}
-          isSpecialtySearch={isSpecialtySearch}
-          searchTerm={searchTerm}
-        />
-        <PaginationControls
-          currentPage={currentPage}
-          totalCount={totalCount}
-          itemsPerPage={itemsPerPage}
-          setCurrentPage={setCurrentPage}
-        />
+
+        <div className="p-8 flex flex-col flex-grow">
+          <SearchBar
+            searchTerm={searchTerm}
+            setSearchTerm={handleSearchChange}
+            handleResetSearch={handleResetSearch}
+          />
+          <AdvocateTable 
+            advocates={advocates} 
+            isTableLoading={isTableLoading} 
+            sortColumn={sortColumn}
+            sortOrder={sortOrder}
+            onSort={handleSort}
+            isSpecialtySearch={isSpecialtySearch}
+            searchTerm={searchTerm}
+          />
+          <PaginationControls
+            currentPage={currentPage}
+            totalCount={totalCount}
+            itemsPerPage={itemsPerPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </div>
       </div>
     </main>
   );
