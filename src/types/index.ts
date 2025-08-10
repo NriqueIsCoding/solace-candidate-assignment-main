@@ -18,6 +18,8 @@ export interface AdvocateTableProps {
     sortColumn: string;
     sortOrder: SortOrder;
     onSort: (column: string) => void;
+    isSpecialtySearch: boolean;
+    searchTerm: string;
 }
 
 export interface SearchBarProps {
@@ -44,5 +46,7 @@ export interface FetchAdvocatesArgs {
 export interface AdvocateRowProps {
     advocate: Advocate;
     index: number;
+    isSpecialtySearch: boolean;
+    searchTerm: string;
 }
 

@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { formatPhoneNumber } from "./utils/helpers";
 import { Advocate, AdvocateRowProps } from "@localtypes/index";
 
-const AdvocateRow: React.FC<AdvocateRowProps> = ({ advocate, index }) => {
+const AdvocateRow: React.FC<AdvocateRowProps> = ({ advocate, index, isSpecialtySearch, searchTerm }) => {
   // state to manage the accordion
   const [isExpanded, setIsExpanded] = useState(false);
+
+  useEffect(() => {
+    // checking if this row's specialties match
+    if (isSpecialtySearch && searchTerm && advocate.specialties.some(s => s.toLowerCase().includes(searchTerm.toLowerCase()))) {
+      setIsExpanded(true); // expand the row dude!
+    } else {
+      setIsExpanded(false); // Collapse it =_(
+    }
+  }, [isSpecialtySearch, searchTerm, advocate.specialties]);
+
 
   const toggleAccordion = () => {
     setIsExpanded(!isExpanded);

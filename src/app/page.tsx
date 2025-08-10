@@ -11,7 +11,8 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [isTableLoading, setIsTableLoading] = useState(false);
-  
+  const [isSpecialtySearch, setIsSpecialtySearch] = useState(false);
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
@@ -35,10 +36,11 @@ export default function Home() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const { data, totalCount: newTotalCount } = await response.json();
+      const { data, totalCount: newTotalCount, matchedSpecialty } = await response.json();
       
       setAdvocates(data);
       setTotalCount(newTotalCount);
+      setIsSpecialtySearch(matchedSpecialty);
     } catch (error: any) {
       if (error.name === "AbortError") {
         console.log("Fetch aborted:", error.message);
@@ -120,6 +122,8 @@ export default function Home() {
           sortColumn={sortColumn}
           sortOrder={sortOrder}
           onSort={handleSort}
+          isSpecialtySearch={isSpecialtySearch}
+          searchTerm={searchTerm}
         />
         <PaginationControls
           currentPage={currentPage}

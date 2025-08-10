@@ -8,9 +8,11 @@ const AdvocateTable: React.FC<AdvocateTableProps> = ({
   sortColumn,
   sortOrder,
   onSort,
+  isSpecialtySearch,
+  searchTerm,
 }) => {
   const renderSortIndicator = (column: string) => {
-    // Is current column the one being sorted?
+    // is current column the one being sorted?
     if (column === sortColumn) {
       // Returning icon based on the sort order
       return sortOrder === "asc" ? (
@@ -75,7 +77,13 @@ const AdvocateTable: React.FC<AdvocateTableProps> = ({
             </tr>
           ) : advocates.length > 0 ? (
             advocates.map((advocate, index) => (
-              <AdvocateRow key={advocate.id} advocate={advocate} index={index} />
+              <AdvocateRow 
+                key={advocate.id} 
+                advocate={advocate} 
+                index={index} 
+                isSpecialtySearch={isSpecialtySearch}
+                searchTerm={searchTerm}
+            />
             ))
           ) : (
             <tr>
