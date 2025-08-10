@@ -28,7 +28,7 @@ const AdvocateTable: React.FC<AdvocateTableProps> = ({
   return (
     <div className="overflow-x-auto relative shadow-md sm:rounded-lg flex flex-col">
       <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-200">
+        <thead className="text-xs text-gray-700 uppercase bg-indigo-50">
           <tr>
             <th
               scope="col"
