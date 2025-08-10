@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS for the advocate table */
+.advocate-table-row {
+    @apply border-b border-gray-200 transition-colors duration-150 ease-in-out;
+}
+
+.advocate-table-row-even {
+    @apply bg-white hover:bg-gray-100;
+}
+
+.advocate-table-row-odd {
+    @apply bg-gray-50 hover:bg-gray-100;
+}
+
+.advocate-th {
+    @apply py-3 px-6;
+}
+
+.advocate-td {
+    @apply py-4 px-6;
+}
+
+.advocate-td-specialties {
+    @apply py-4 px-6 text-gray-800;
+}
