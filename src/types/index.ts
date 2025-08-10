@@ -1,3 +1,6 @@
+// Two possible sort orders
+export type SortOrder = "asc" | "desc";
+
 export interface Advocate {
     id: number;
     firstName: string;
@@ -12,6 +15,9 @@ export interface Advocate {
 export interface AdvocateTableProps {
     advocates: Advocate[];
     isTableLoading: boolean;
+    sortColumn: string;
+    sortOrder: SortOrder;
+    onSort: (column: string) => void;
 }
 
 export interface SearchBarProps {
@@ -31,5 +37,7 @@ export interface FetchAdvocatesArgs {
     searchTerm: string;
     page: number;
     limit: number;
-  }
+    sortColumn: string;
+    sortOrder: SortOrder;
+}
   

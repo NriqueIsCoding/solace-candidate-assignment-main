@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import SearchBar from "./searchBar";
 import AdvocateTable from "./advocateTable";
 import PaginationControls from "./paginationControls";
-import { Advocate } from "../types";
+import { Advocate, SortOrder } from "@localtypes/index";
 
 export default function Home() {
   const [advocates, setAdvocates] = useState<Advocate[]>([]);
@@ -15,21 +15,28 @@ export default function Home() {
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
-  const itemsPerPage = 5; // we can set the desire items per page here
+  const itemsPerPage = 5;
+
+  // Sorting state
+  const [sortColumn, setSortColumn] = useState<string>("firstName"); // Default: sort by first name
+  const [sortOrder, setSortOrder] = useState<SortOrder>("asc"); // Default: sort order ascending
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const fetchAdvocates = useCallback(async (term: string, page: number, limit: number, signal: AbortSignal) => {
+  const fetchAdvocates = useCallback(async (term: string, page: number, limit: number, sortCol: string, sortOrd: SortOrder, signal: AbortSignal) => {
     setIsTableLoading(true);
 
     try {
-      const url = `/api/advocates?search=${encodeURIComponent(term)}&page=${page}&limit=${limit}`;
-      console.log("Fetching from URL:", url);
+      // Pass sorting, page and limit parameters to the API
+      const url = `/api/advocates?search=${encodeURIComponent(term)}&page=${page}&limit=${limit}&sortColumn=${sortCol}&sortOrder=${sortOrd}`;
+      // console.log("Fetching from URL:", url);
       const response = await fetch(url, { signal });
-      if (!response.ok) {
+      if (! response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+
       const { data, totalCount: newTotalCount } = await response.json();
+      
       setAdvocates(data);
       setTotalCount(newTotalCount);
     } catch (error: any) {
@@ -52,25 +59,35 @@ export default function Home() {
     abortControllerRef.current = abortController;
 
     const debounceTimeout = setTimeout(() => {
-      fetchAdvocates(searchTerm, currentPage, itemsPerPage, abortController.signal);
+      fetchAdvocates(searchTerm, currentPage, itemsPerPage, sortColumn, sortOrder, abortController.signal);
     }, 500);
 
     return () => {
       clearTimeout(debounceTimeout);
       abortController.abort();
     };
-  }, [searchTerm, currentPage, fetchAdvocates]); // Re-fetch when search or page changes
+  }, [searchTerm, currentPage, sortColumn, sortOrder, fetchAdvocates]); // Re-fetching when search page, or sort changes
 
-  // Handler to update search term and reset page
   const handleSearchChange = (newSearchTerm: string) => {
     setSearchTerm(newSearchTerm);
-    setCurrentPage(1); // Resetting to the first page on a new search
+    setCurrentPage(1); // Reset to the first page on a new search
   };
 
-  // Handler to reset search term and page
   const handleResetSearch = () => {
     setSearchTerm("");
     setCurrentPage(1); // Reset to the first page on reset
+  };
+
+  const handleSort = (column: string) => {
+    // Same column clicked, toggle sort order
+    if (column === sortColumn) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      // Otherwise, setting a new column and default to ascending
+      setSortColumn(column);
+      setSortOrder("asc");
+    }
+    setCurrentPage(1); // Resetting to page 1 on new sort
   };
 
   if (isInitialLoading) {
@@ -97,7 +114,13 @@ export default function Home() {
           setSearchTerm={handleSearchChange}
           handleResetSearch={handleResetSearch}
         />
-        <AdvocateTable advocates={advocates} isTableLoading={isTableLoading} />
+        <AdvocateTable 
+          advocates={advocates} 
+          isTableLoading={isTableLoading} 
+          sortColumn={sortColumn}
+          sortOrder={sortOrder}
+          onSort={handleSort}
+        />
         <PaginationControls
           currentPage={currentPage}
           totalCount={totalCount}
