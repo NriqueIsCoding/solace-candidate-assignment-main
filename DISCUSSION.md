@@ -4,11 +4,15 @@ https://tailwindcss.com/docs
 - Using Drizzle ORM Documentation
 https://orm.drizzle.team/docs/overview
 
+- I used AbortController and setTimeout together prevents redundant API calls. The settimeout with a 500ms delay debounces the search input, to make sure the API is only called after the user has stopped typing, while the AbortController cancels any requests that are no longer needed.
+
 - Using flex-grow in main div container
 I Wanted to allow the container to grow and take up any available vertical space within its parent container. Basically it's what makes the card expand to fill the entire screen height. It will also be pushing the pagination controls all the way to the bottom.
 
 - Added a documentation directory
 it includes File and Directory Breakdown
+
+- I used CAST(... AS TEXT) because the specialties column is an array type in the database, and this converts it to a searchable string so we can use ILIKE for partial text matching.
 
 - checklist:
 Add a debounce function to optimize API calls from the search bar. ✅
