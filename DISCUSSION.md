@@ -9,3 +9,13 @@ I Wanted to allow the container to grow and take up any available vertical space
 
 - Added a documentation directory
 it includes File and Directory Breakdown
+
+- checklist:
+Add a debounce function to optimize API calls from the search bar. ✅
+Adjust (/api/advocates) to fetch data. ✅
+Implement server-side searching, sorting, and pagination logic in the database service. ✅
+Build the main page.tsx component to manage all client-side state. ✅
+Develop the AdvocateTable, SearchBar, and PaginationControls child components. ✅
+Integrate Font Awesome icons for a clean UI, especially for sort indicators. ✅
+Refactor CSS by creating custom classes in globals.css using @apply. ✅
+Create a dedicated types file to define all component props and data interfaces. ✅
