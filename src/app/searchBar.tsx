@@ -15,7 +15,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchTerm, setSearchTerm, handle
           id="search-input"
           type="text"
           className="search-input"          
-          placeholder="Search by name, city, degree, specialty or years of experience"
+          placeholder="Search by name, city, degree, specialties or years of experience"
           value={searchTerm}
           onChange={handleSearchChange}
         />

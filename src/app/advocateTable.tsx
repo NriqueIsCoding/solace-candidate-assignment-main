@@ -1,55 +1,66 @@
 import React from "react";
-import { formatPhoneNumber } from "./utils/helpers";
 import { AdvocateTableProps } from "@localtypes/index";
+import AdvocateRow from "./advocateRow"; // Import the new child component
 
-const AdvocateTable: React.FC<AdvocateTableProps> = ({ 
-  advocates, 
-  isTableLoading, 
-  sortColumn, 
-  sortOrder, 
-  onSort 
+const AdvocateTable: React.FC<AdvocateTableProps> = ({
+  advocates,
+  isTableLoading,
+  sortColumn,
+  sortOrder,
+  onSort,
 }) => {
-  
   const renderSortIndicator = (column: string) => {
     // Is current column the one being sorted?
     if (column === sortColumn) {
       // Returning icon based on the sort order
-      return sortOrder === 'asc' ? <i className="fas fa-sort-up ml-2"></i> : <i className="fas fa-sort-down ml-2"></i>;
+      return sortOrder === "asc" ? (
+        <i className="fas fa-sort-up ml-2"></i>
+      ) : (
+        <i className="fas fa-sort-down ml-2"></i>
+      );
     }
     // or return a default sort icon for non-sorted columns
     return <i className="fas fa-sort ml-2 text-gray-400"></i>;
   };
 
   return (
-    <div className="overflow-x-auto relative shadow-md sm:rounded-lg flex flex-col min-h-[350px]">
+    <div className="overflow-x-auto relative shadow-md sm:rounded-lg flex flex-col">
       <table className="w-full text-sm text-left text-gray-500">
         <thead className="text-xs text-gray-700 uppercase bg-gray-200">
           <tr>
-            <th 
-              scope="col" 
-              className="px-6 py-3 cursor-pointer select-none" 
-              onClick={() => onSort('firstName')}
+            <th
+              scope="col"
+              className="px-6 py-3 cursor-pointer select-none"
+              onClick={() => onSort("firstName")}
             >
-              First Name{renderSortIndicator('firstName')}
+              First Name{renderSortIndicator("firstName")}
             </th>
-            <th 
-              scope="col" 
-              className="px-6 py-3 cursor-pointer select-none" 
-              onClick={() => onSort('lastName')}
+            <th
+              scope="col"
+              className="px-6 py-3 cursor-pointer select-none"
+              onClick={() => onSort("lastName")}
             >
-              Last Name{renderSortIndicator('lastName')}
+              Last Name{renderSortIndicator("lastName")}
             </th>
-            <th 
-                scope="col" 
-                className="px-6 py-3 cursor-pointer select-none" 
-                onClick={() => onSort('city')}
+            <th
+              scope="col"
+              className="px-6 py-3 cursor-pointer select-none"
+              onClick={() => onSort("city")}
             >
-                City{renderSortIndicator('city')}
+              City{renderSortIndicator("city")}
             </th>
-            <th scope="col" className="px-6 py-3">Degree</th>
-            <th scope="col" className="px-6 py-3">Specialties</th>
-            <th scope="col" className="px-6 py-3">Years of Experience</th>
-            <th scope="col" className="px-6 py-3">Phone Number</th>
+            <th scope="col" className="px-6 py-3">
+              Degree
+            </th>
+            <th scope="col" className="px-6 py-3 text-center">
+              Specialties
+            </th>
+            <th scope="col" className="px-6 py-3 text-center">
+              Years of Experience
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Phone Number
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -64,30 +75,7 @@ const AdvocateTable: React.FC<AdvocateTableProps> = ({
             </tr>
           ) : advocates.length > 0 ? (
             advocates.map((advocate, index) => (
-              <tr
-                key={advocate.id}
-                className={`
-                  ${index % 2 === 0 ? "bg-white" : "bg-gray-50"} border-b hover:bg-gray-100
-                `}
-              >
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                  {advocate.firstName}
-                </td>
-                <td className="px-6 py-4 text-gray-800">{advocate.lastName}</td>
-                <td className="px-6 py-4 text-gray-800">{advocate.city}</td>
-                <td className="px-6 py-4 text-gray-800">{advocate.degree}</td>
-                <td className="px-6 py-4">
-                  <ul className="list-disc list-inside space-y-1">
-                    {advocate.specialties.map((spec, idx) => (
-                      <li key={idx}>{spec}</li>
-                    ))}
-                  </ul>
-                </td>
-                <td className="px-6 py-4 text-gray-800">{advocate.yearsOfExperience}</td>
-                <td className="px-6 py-4 text-gray-800">
-                  {formatPhoneNumber(advocate.phoneNumber)}
-                </td>
-              </tr>
+              <AdvocateRow key={advocate.id} advocate={advocate} index={index} />
             ))
           ) : (
             <tr>

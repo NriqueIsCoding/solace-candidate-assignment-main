@@ -15,7 +15,7 @@ export default function Home() {
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   // Sorting state
   const [sortColumn, setSortColumn] = useState<string>("firstName"); // Default: sort by first name
