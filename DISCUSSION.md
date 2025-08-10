@@ -29,3 +29,6 @@ Better files/directory organization
 enhance main page title , maybe a banner?
 create an Downloa all button - will download all in csv
 Expand row when search find specialty ✅
+
+- I would like to apologize since I didnt start commiting until the search, sorting implementation. But all changes has been pushed into my repo. All PRs have been merged. I was really fun building this. I had a lot more ideas in how I could have improve it even more. The Checklist above has a few more tasks pending. But I think I am showing a lot of my skills backend and front end wise.
+Appreciate the opportunity. Thank you
