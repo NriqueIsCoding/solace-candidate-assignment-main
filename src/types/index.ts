@@ -27,10 +27,10 @@ export interface SearchBarProps {
 }
 
 export interface PaginationControlsProps {
-  currentPage: number;
-  totalCount: number;
-  itemsPerPage: number;
-  setCurrentPage: (page: number) => void;
+    currentPage: number;
+    totalCount: number;
+    itemsPerPage: number;
+    setCurrentPage: (page: number) => void;
 }
 
 export interface FetchAdvocatesArgs {
@@ -40,4 +40,9 @@ export interface FetchAdvocatesArgs {
     sortColumn: string;
     sortOrder: SortOrder;
 }
-  
+
+export interface AdvocateRowProps {
+    advocate: Advocate;
+    index: number;
+}
+
