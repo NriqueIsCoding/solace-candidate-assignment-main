@@ -18,7 +18,7 @@ export async function fetchAdvocatesWithPagination({
     ilike(advocates.lastName, `%${searchTerm.toLowerCase()}%`),
     ilike(advocates.city, `%${searchTerm.toLowerCase()}%`),
     ilike(advocates.degree, `%${searchTerm.toLowerCase()}%`),
-    sql`${advocates.specialties}::jsonb @> ${JSON.stringify([searchTerm])}::jsonb`,
+    sql`CAST(${advocates.specialties} AS TEXT) ILIKE ${`%${searchTerm.toLowerCase()}%`}`,
     sql`CAST(${advocates.yearsOfExperience} AS TEXT) ILIKE ${`%${searchTerm.toLowerCase()}%`}`,
   ] : [];
 
@@ -61,6 +61,6 @@ export async function fetchAdvocatesWithPagination({
 
   // Pagination
   const data = await advocateQuery.limit(limit).offset(offset);
-
+  // console.log('data', data)
   return { data, totalCount, currentPage: page, limit };
 }
